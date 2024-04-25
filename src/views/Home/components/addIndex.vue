@@ -155,10 +155,10 @@ const confirm = () => {
     ...form.value,
     base64Url: fileList.value?.[0]?.base64Url || ""
   }
-  parms.total = new Big(parms.box_number).times(parms.ctn).toFixed() || ""
-  parms.sub_price = new Big(parms.price).times(parms.total).toFixed() || ""
+  parms.total = Number(new Big(parms.box_number).times(parms.ctn).toFixed()) || ""
+  parms.sub_price = Number(new Big(parms.price).times(parms.total).toFixed()) || ""
   parms.sub_specifications =
-    new Big(parms.box_number).times(parms.specifications).toFixed() || ""
+  Number(new Big(parms.box_number).times(parms.specifications).toFixed()) || ""
   emit("confirm", parms)
   emit("close")
 }

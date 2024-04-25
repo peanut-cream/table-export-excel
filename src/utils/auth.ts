@@ -2,7 +2,7 @@ export const TOKEN_KEY = "TOKEN"
 
 export const setToken = (token: string) => {
   const obj = {
-    timestamp: new Date().getTime() + 7 * 24 * 60 * 60,
+    timestamp: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
     token
   }
   localStorage.setItem(TOKEN_KEY, JSON.stringify(obj))
