@@ -129,15 +129,18 @@ export async function createExcelReturnBuffer(data: any) {
   data.data.forEach((item: any, index: number) => {
     // 合计数量
     worksheet.getCell(`${String.fromCharCode(65 + 6)}${Object.keys(data.stopName).length + 2+index}`).value= {
-      formula: `(${String.fromCharCode(65 + 4)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 5)}${Object.keys(data.stopName).length + 2+index})`
+      formula: `(${String.fromCharCode(65 + 4)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 5)}${Object.keys(data.stopName).length + 2+index})`,
+      result: item.total
     }
     // 小计金额
     worksheet.getCell(`${String.fromCharCode(65 + 8)}${Object.keys(data.stopName).length + 2+index}`).value= {
-      formula: `(${String.fromCharCode(65 + 6)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 7)}${Object.keys(data.stopName).length + 2+index})`
+      formula: `(${String.fromCharCode(65 + 6)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 7)}${Object.keys(data.stopName).length + 2+index})`,
+      result:item.sub_price
     }
     // 小计箱规
     worksheet.getCell(`${String.fromCharCode(65 + 10)}${Object.keys(data.stopName).length + 2+index}`).value= {
-      formula: `(${String.fromCharCode(65 + 9)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 4)}${Object.keys(data.stopName).length + 2+index})`
+      formula: `(${String.fromCharCode(65 + 9)}${Object.keys(data.stopName).length + 2+index}*${String.fromCharCode(65 + 4)}${Object.keys(data.stopName).length + 2+index})`,
+      result:item.sub_specifications
     }
   })
   data.fieldList.forEach((item: any, index: any) => {
@@ -147,12 +150,16 @@ export async function createExcelReturnBuffer(data: any) {
       ).value = "合计"
     }
     if (item.sum) {
+      const total = data.data.reduce((prev: any, next: any) => {
+        return prev + next[item.prop]
+      },0)
       worksheet.getCell(
         `${String.fromCharCode(65 + index)}${totalRowLine}`
       ).value = {
         formula: `SUM(${String.fromCharCode(65 + index)}${
           Object.keys(data.stopName).length + 1
-        }:${String.fromCharCode(65 + index)}${totalRowLine - 1})`
+        }:${String.fromCharCode(65 + index)}${totalRowLine - 1})`,
+        result: total
       }
     }
   })
